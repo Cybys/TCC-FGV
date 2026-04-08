@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pesquisa — Gestão de Marca nas Plataformas Digitais · FGV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#0E0E0E;
+  --ink2:#3A3A3A;
+  --ink3:#7A7A7A;
+  --bg:#F5F3EE;
+  --white:#FFFFFF;
+  --border:#E2DED6;
+  --accent:#5B4FE8;
+  --accent2:#8B7FF5;
+  --accent-bg:#EEecfd;
+  --ok:#1A7A4A;
+  --ok-bg:#E6F5ED;
+  --err:#C0392B;
+  --err-bg:#FDECEA;
+  --warn:#B5620A;
+  --r:16px;--r-sm:10px;--r-xs:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── INTRO SCREEN ── */
+.intro-screen{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+.intro-left{
+  background:var(--ink);
+  padding:4rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.intro-left::before{
+  content:'';
+  position:absolute;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(91,79,232,0.35) 0%,transparent 70%);
+  top:-100px;right:-100px;
+  pointer-events:none;
+}
+.intro-left::after{
+  content:'';
+  position:absolute;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(139,127,245,0.2) 0%,transparent 70%);
+  bottom:50px;left:-50px;
+  pointer-events:none;
+}
+.il-top{position:relative;z-index:1;}
+.il-logo{
+  display:flex;align-items:center;gap:10px;margin-bottom:3rem;
+}
+.il-logo-mark{
+  width:36px;height:36px;border-radius:8px;
+  background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+}
+.il-logo-mark svg{width:18px;height:18px;fill:#fff;}
+.il-logo-text{font-size:13px;font-weight:500;color:rgba(255,255,255,0.6);}
+.il-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(91,79,232,0.25);
+  border:1px solid rgba(91,79,232,0.4);
+  color:#C4BDFF;
+  font-size:11px;font-weight:500;letter-spacing:0.08em;
+  padding:5px 12px;border-radius:99px;
+  margin-bottom:1.5rem;text-transform:uppercase;
+}
+.il-tag-dot{width:5px;height:5px;border-radius:50%;background:#8B7FF5;}
+.il-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(28px,3.5vw,48px);
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  margin-bottom:1.5rem;
+  letter-spacing:-0.02em;
+}
+.il-h1 span{color:#8B7FF5;}
+.il-desc{
+  font-size:15px;color:rgba(255,255,255,0.55);
+  line-height:1.8;max-width:400px;margin-bottom:2.5rem;
+}
+.il-stats{
+  display:flex;gap:2rem;
+}
+.il-stat-num{
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:700;color:#fff;
+  line-height:1;margin-bottom:3px;
+}
+.il-stat-label{font-size:12px;color:rgba(255,255,255,0.4);}
+.il-bottom{
+  position:relative;z-index:1;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:1.5rem;
+}
+.il-author{
+  display:flex;align-items:center;gap:12px;
+}
+.il-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;
+}
+.il-author-name{font-size:14px;font-weight:500;color:#fff;}
+.il-author-role{font-size:12px;color:rgba(255,255,255,0.4);}
+
+/* intro right */
+.intro-right{
+  padding:4rem;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.ir-label{
+  font-size:11px;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:8px;
+}
+.ir-h2{
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:700;color:var(--ink);
+  line-height:1.2;margin-bottom:8px;letter-spacing:-0.02em;
+}
+.ir-sub{font-size:14px;color:var(--ink3);line-height:1.7;margin-bottom:2rem;}
+
+.steps-list{display:flex;flex-direction:column;gap:0;margin-bottom:2rem;}
+.step-item{
+  display:flex;gap:16px;padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.step-item:last-child{border-bottom:none;}
+.step-icon{
+  width:36px;height:36px;border-radius:var(--r-xs);
+  background:var(--accent-bg);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-icon svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.8;}
+.step-text{font-size:13px;color:var(--ink2);line-height:1.5;padding-top:2px;}
+.step-text strong{display:block;font-weight:600;color:var(--ink);margin-bottom:1px;}
+
+.name-field{margin-bottom:1.5rem;}
+.name-label{font-size:13px;font-weight:500;color:var(--ink);display:block;margin-bottom:8px;}
+.name-input-wrap{position:relative;}
+.name-input-wrap svg{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;stroke:var(--ink3);fill:none;stroke-width:1.8;
+}
+input[type=text]{
+  width:100%;padding:13px 16px 13px 42px;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  font-size:15px;font-family:'Inter',sans-serif;
+  color:var(--ink);background:var(--white);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(91,79,232,.1);}
+input[type=text]::placeholder{color:var(--ink3);}
+
+.btn-start{
+  width:100%;padding:15px;
+  background:var(--ink);border:none;border-radius:var(--r-sm);
+  font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#fff;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background .2s,transform .15s;
+}
+.btn-start:hover{background:#1a1a1a;transform:translateY(-1px);}
+.btn-start:active{transform:translateY(0);}
+.btn-start svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
+.privacy-note{
+  text-align:center;font-size:12px;color:var(--ink3);
+  margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.privacy-note svg{width:12px;height:12px;stroke:var(--ink3);fill:none;stroke-width:2;}
+
+/* ── QUESTION SCREEN ── */
+.q-screen{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:280px 1fr;
+}
+
+/* sidebar */
+.q-sidebar{
+  background:var(--white);
+  border-right:1px solid var(--border);
+  padding:0;
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.qs-top{
+  padding:1.75rem 1.5rem;
+  border-bottom:1px solid var(--border);
+}
+.qs-logo{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
+.qs-logo-mark{
+  width:28px;height:28px;border-radius:6px;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.qs-logo-mark svg{width:14px;height:14px;fill:#fff;}
+.qs-logo-text{font-size:12px;font-weight:500;color:var(--ink3);}
+.qs-title{
+  font-family:'Syne',sans-serif;
+  font-size:14px;font-weight:700;color:var(--ink);
+  line-height:1.4;
+}
+
+.qs-blocks{padding:1rem 1rem;}
+.qs-section{
+  font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);
+  margin-bottom:6px;margin-top:1rem;padding:0 4px;
+}
+.qs-block{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 10px;border-radius:var(--r-xs);
+  cursor:default;margin-bottom:2px;
+  transition:background .15s;
+}
+.qs-block.active{background:var(--accent-bg);}
+.qs-block.done .qs-bnum{background:var(--ok-bg);color:var(--ok);}
+.qs-bnum{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--border);
+  font-size:11px;font-weight:600;color:var(--ink3);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;
+}
+.qs-block.active .qs-bnum{background:var(--accent);color:#fff;}
+.qs-bname{font-size:13px;color:var(--ink3);transition:color .15s;}
+.qs-block.active .qs-bname{color:var(--accent);font-weight:500;}
+.qs-block.done .qs-bname{color:var(--ok);}
+
+.qs-progress-wrap{margin-top:auto;padding:1.25rem 1.5rem;border-top:1px solid var(--border);}
+.qs-progress-label{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--ink3);margin-bottom:6px;
+}
+.qs-progress-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
+.qs-progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .5s ease;}
+
+.qs-footer{
+  padding:1.25rem 1.5rem;
+  border-top:1px solid var(--border);
+  font-size:11px;color:var(--ink3);line-height:1.7;
+}
+
+/* main question area */
+.q-main{
+  padding:4rem 3.5rem;
+  max-width:720px;
+}
+
+.qm-meta{
+  display:flex;align-items:center;gap:8px;margin-bottom:2.5rem;
+}
+.qm-block-tag{
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-bg);
+  padding:4px 12px;border-radius:99px;
+}
+.qm-sep{width:4px;height:4px;border-radius:50%;background:var(--border);}
+.qm-count{font-size:12px;color:var(--ink3);}
+
+.qm-question{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(20px,2.5vw,30px);
+  font-weight:700;color:var(--ink);
+  line-height:1.3;letter-spacing:-0.02em;
+  margin-bottom:2.5rem;
+}
+
+/* recorder card */
+.rec-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  transition:border-color .3s;
+}
+.rec-card.is-recording{border-color:rgba(224,68,68,0.4);}
+.rec-card.is-done{border-color:rgba(26,122,74,0.3);}
+
+.rec-top{
+  padding:1.75rem 2rem;
+  display:flex;align-items:center;gap:1.5rem;
+}
+.rec-btn-wrap{position:relative;flex-shrink:0;}
+.rec-btn{
+  width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s,background .2s;
+  position:relative;z-index:1;
+}
+.rec-btn:hover{transform:scale(1.05);}
+.rec-btn:active{transform:scale(.95);}
+.rec-btn.recording{background:#E04444;}
+.rec-btn svg{width:24px;height:24px;fill:#fff;transition:opacity .2s;}
+.rec-btn .icon-stop{display:none;}
+.rec-btn.recording .icon-mic{display:none;}
+.rec-btn.recording .icon-stop{display:block;}
+.rec-pulse{
+  position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid rgba(224,68,68,0.4);
+  opacity:0;
+  animation:none;
+}
+.rec-btn.recording ~ .rec-pulse{
+  opacity:1;animation:ripple 1.5s ease-out infinite;
+}
+@keyframes ripple{
+  0%{transform:scale(.9);opacity:.8;}
+  100%{transform:scale(1.4);opacity:0;}
+}
+
+.rec-info{flex:1;}
+.rec-title{
+  font-family:'Syne',sans-serif;
+  font-size:17px;font-weight:700;color:var(--ink);
+  margin-bottom:3px;transition:color .2s;
+}
+.rec-title.recording{color:#C0392B;}
+.rec-subtitle{font-size:13px;color:var(--ink3);}
+.rec-timer-display{
+  font-size:13px;font-weight:500;
+  font-variant-numeric:tabular-nums;
+  color:var(--ink3);margin-top:4px;
+}
+.rec-timer-display.warn{color:var(--warn);}
+.rec-timer-display.danger{color:var(--err);font-weight:600;}
+
+.rec-status-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;padding:5px 13px;border-radius:99px;
+  flex-shrink:0;
+}
+.rec-status-badge.ok{background:var(--ok-bg);color:var(--ok);}
+.rec-status-badge.idle{background:var(--border);color:var(--ink3);}
+.rec-status-badge.rec{background:rgba(224,68,68,0.1);color:#C0392B;}
+.rec-status-badge .bdot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.rec-status-badge.rec .bdot{animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+.rec-timebar{
+  height:3px;background:#F0EDE8;
+  margin:0 2rem;border-radius:0;
+}
+.rec-timebar-fill{
+  height:100%;background:var(--accent);
+  transition:width 1s linear,background .3s;
+  width:0%;border-radius:0;
+}
+.rec-timebar-fill.warn{background:var(--warn);}
+.rec-timebar-fill.danger{background:var(--err);}
+
+.rec-audio-wrap{padding:1.25rem 2rem;}
+audio{width:100%;height:36px;border-radius:var(--r-xs);outline:none;}
+
+.rec-bottom{
+  padding:1rem 2rem;
+  background:#FAFAF8;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.rec-bottom-icon{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.rec-bottom-icon.ok{background:var(--ok-bg);}
+.rec-bottom-icon.loading{background:var(--accent-bg);}
+.rec-bottom-icon.error{background:var(--err-bg);}
+.rec-bottom-icon svg{width:13px;height:13px;}
+.rec-bottom-text{font-size:13px;color:var(--ink2);flex:1;line-height:1.4;}
+.rec-bottom-text span{display:block;font-size:11px;color:var(--ink3);margin-top:1px;}
+.spinner{
+  width:14px;height:14px;border:2px solid rgba(91,79,232,.15);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:spin .7s linear infinite;flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.rec-bottom-badge{
+  font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;flex-shrink:0;
+}
+.rec-bottom-badge.ok{background:var(--ok-bg);color:var(--ok);}
+.rec-bottom-badge.err{background:var(--err-bg);color:var(--err);}
+.rec-bottom-badge.loading{background:var(--accent-bg);color:var(--accent);}
+
+/* nav */
+.qm-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;}
+.btn-back{
+  padding:12px 22px;border-radius:var(--r-sm);
+  border:1.5px solid var(--border);background:var(--white);
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--ink);
+  cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .15s,transform .1s;
+}
+.btn-back:hover{background:var(--bg);}
+.btn-back:active{transform:scale(.98);}
+.btn-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+.btn-next{
+  padding:12px 28px;border-radius:var(--r-sm);
+  border:none;background:var(--ink);
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:#fff;
+  cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:background .15s,transform .1s,opacity .15s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+}
+.btn-next:hover:not(:disabled){background:#1a1a1a;transform:translateY(-1px);}
+.btn-next:active:not(:disabled){transform:translateY(0);}
+.btn-next:disabled{opacity:.3;cursor:not-allowed;}
+.btn-next svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;}
+
+/* ── DONE SCREEN ── */
+.done-screen{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:3rem 1.5rem;
+  background:var(--bg);
+}
+.done-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:3rem;
+  max-width:580px;width:100%;
+}
+.done-check{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.5rem;
+}
+.done-check svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2.5;}
+.done-h{
+  font-family:'Syne',sans-serif;
+  font-size:26px;font-weight:800;color:var(--ink);
+  line-height:1.2;margin-bottom:8px;letter-spacing:-0.02em;
+}
+.done-sub{font-size:15px;color:var(--ink3);line-height:1.7;margin-bottom:2rem;}
+.done-divider{height:1px;background:var(--border);margin:1.5rem 0;}
+.done-list-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;}
+.done-list{display:flex;flex-direction:column;gap:6px;}
+.done-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:var(--r-xs);
+  background:var(--bg);font-size:13px;
+}
+.done-rnum{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--border);font-size:10px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--ink3);
+}
+.done-rnum.ok{background:var(--ok-bg);color:var(--ok);}
+.done-rq{flex:1;color:var(--ink);line-height:1.4;}
+.done-rq small{display:block;font-size:11px;color:var(--ink3);margin-top:1px;}
+.done-rbadge{
+  font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;flex-shrink:0;
+}
+.done-rbadge.ok{background:var(--ok-bg);color:var(--ok);}
+.done-rbadge.err{background:var(--err-bg);color:var(--err);}
+.done-rbadge.loading{background:var(--accent-bg);color:var(--accent);}
+.done-rbadge.none{background:var(--border);color:var(--ink3);}
+.btn-retry{
+  padding:4px 10px;font-size:12px;font-family:'Inter',sans-serif;
+  border:1.5px solid var(--border);background:var(--white);
+  border-radius:var(--r-xs);cursor:pointer;color:var(--ink);
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .intro-screen{grid-template-columns:1fr;}
+  .intro-left{display:none;}
+  .intro-right{padding:2rem 1.5rem;min-height:100vh;justify-content:flex-start;padding-top:3rem;}
+  .q-screen{grid-template-columns:1fr;}
+  .q-sidebar{display:none;}
+  .q-main{padding:2rem 1.25rem;max-width:100%;}
+  .qm-question{font-size:20px;}
+  .rec-top{padding:1.25rem;}
+  .rec-audio-wrap{padding:1rem 1.25rem;}
+  .rec-bottom{padding:.875rem 1.25rem;}
+  .rec-timebar{margin:0 1.25rem;}
+  .done-card{padding:2rem;}
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.fade-up{animation:fadeUp .4s ease both;}
+.fade-up-2{animation:fadeUp .4s .08s ease both;}
+.fade-up-3{animation:fadeUp .4s .16s ease both;}
+.fade-up-4{animation:fadeUp .4s .24s ease both;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const SUPABASE_URL='https://hbuufxipqswdcfrkjjaw.supabase.co';
+const EDGE_FN_URL=`${SUPABASE_URL}/functions/v1/upload-audio`;
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhidXVmeGlwcXN3ZGNmcmtqamF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NzM5NTUsImV4cCI6MjA5MTI0OTk1NX0.SdcFbmA_pwEBDlOyU0pfA1pL2GcP3A3eAmcSstPA3k8';
+
+const BLOCKS=[
+  {title:'Atuação nas plataformas',questions:[
+    'Como você utiliza as plataformas digitais no seu trabalho atualmente?',
+    'Quais plataformas são mais relevantes para você e por quê?',
+    'Como você define onde concentrar seus esforços de comunicação?'
+  ]},
+  {title:'Gestão de marca',questions:[
+    'Você enxerga sua atuação como uma construção de marca? Como isso influencia suas decisões?',
+    'Como você define o tipo de conteúdo que publica?',
+    'Existe uma estratégia clara de posicionamento ou ela foi sendo construída ao longo do tempo?'
+  ]},
+  {title:'Engajamento e audiência',questions:[
+    'Como você percebe a resposta do público ao seu conteúdo?',
+    'Você adapta sua comunicação com base nessas interações?',
+    'Que tipo de conteúdo tende a gerar maior engajamento?'
+  ]},
+  {title:'Algoritmos e visibilidade',questions:[
+    'Você acredita que os algoritmos influenciam seu alcance? De que forma?',
+    'Já utilizou estratégias específicas para aumentar a visibilidade nas plataformas?',
+    'Existe algum padrão que você identifica em conteúdos que performam melhor?'
+  ]},
+  {title:'Autopromoção e percepção',questions:[
+    'Como você equilibra conteúdos promocionais e conteúdos mais espontâneos?',
+    'Você percebe diferenças na forma como o público reage a esses conteúdos?',
+    'A autopromoção influencia a percepção da sua marca?'
+  ]}
+];
+
+const FLAT=[];
+BLOCKS.forEach((b,bi)=>b.questions.forEach((q)=>FLAT.push({block:b.title,blockIdx:bi,q})));
+const TOTAL=FLAT.length;
+const MAX_S=120;
+
+const removeDiacritics=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+const S={
+  screen:'intro',name:'',step:0,
+  recordings:new Array(TOTAL).fill(null),
+  uploadStatus:new Array(TOTAL).fill('pending'),
+  mediaRec:null,chunks:[],timerInt:null,elapsed:0,isRecording:false,
+  sessionTs:null,sessionFolder:null
+};
+
+async function uploadToSupabase(idx,blob){
+  S.uploadStatus[idx]='uploading';render();
+  if(!S.sessionTs)S.sessionTs=new Date().toISOString().replace(/[:.]/g,'-');
+  if(!S.sessionFolder){
+    const sn=removeDiacritics(S.name).replace(/[^a-zA-Z0-9\s]/g,'').replace(/\s+/g,'_').substring(0,40);
+    S.sessionFolder=`${sn}_${S.sessionTs}`;
+  }
+  const sb=removeDiacritics(FLAT[idx].block).replace(/[^a-zA-Z0-9]/g,'_').substring(0,30);
+  const path=`${S.sessionFolder}/Q${String(idx+1).padStart(2,'0')}_${sb}.webm`;
+  try{
+    const form=new FormData();
+    form.append('file',new File([blob],'audio.webm',{type:'audio/webm'}));
+    form.append('path',path);
+    const res=await fetch(EDGE_FN_URL,{method:'POST',headers:{Authorization:`Bearer ${SUPABASE_ANON_KEY}`},body:form});
+    if(!res.ok){const t=await res.text();throw new Error(t);}
+    S.uploadStatus[idx]='ok';
+  }catch(e){console.error(e);S.uploadStatus[idx]='error';}
+  render();
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(S.screen==='intro')renderIntro(app);
+  else if(S.screen==='question')renderQuestion(app);
+  else renderDone(app);
+}
+
+function renderIntro(app){
+  app.innerHTML=`
+  <div class="intro-screen">
+    <div class="intro-left">
+      <div class="il-top">
+        <div class="il-logo">
+          <div class="il-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <span class="il-logo-text">TCC · FGV EAESP</span>
+        </div>
+        <div class="il-tag"><span class="il-tag-dot"></span>Pesquisa Acadêmica 2026</div>
+        <h1 class="il-h1">Gestão de Marca nas <span>Plataformas</span> Digitais</h1>
+        <p class="il-desc">Uma pesquisa sobre como artistas constroem sua presença, identidade e estratégia de comunicação no ambiente digital contemporâneo.</p>
+        <div class="il-stats">
+          <div><div class="il-stat-num">15</div><div class="il-stat-label">perguntas</div></div>
+          <div><div class="il-stat-num">5</div><div class="il-stat-label">blocos temáticos</div></div>
+          <div><div class="il-stat-num">~20</div><div class="il-stat-label">minutos</div></div>
+        </div>
+      </div>
+      <div class="il-bottom">
+        <div class="il-author">
+          <div class="il-avatar">VN</div>
+          <div>
+            <div class="il-author-name">Victor Nicolau</div>
+            <div class="il-author-role">Orientadora: Prof. Ramona de Luca</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="intro-right">
+      <div class="fade-up">
+        <div class="ir-label">Participar da pesquisa</div>
+        <h2 class="ir-h2">Olá! Obrigado por estar aqui.</h2>
+        <p class="ir-sub">Suas respostas em áudio são enviadas automaticamente e usadas exclusivamente para fins acadêmicos. Nenhum dado é compartilhado com terceiros.</p>
+      </div>
+      <div class="steps-list fade-up-2">
+        <div class="step-item">
+          <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></div>
+          <div class="step-text"><strong>Grave em áudio</strong>Até 2 minutos por resposta, no seu ritmo</div>
+        </div>
+        <div class="step-item">
+          <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6h.1a5 5 0 0 1 1 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+          <div class="step-text"><strong>Envio automático</strong>Nada para baixar, salvar ou mandar</div>
+        </div>
+        <div class="step-item">
+          <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="step-text"><strong>100% confidencial</strong>Uso exclusivamente acadêmico</div>
+        </div>
+      </div>
+      <div class="name-field fade-up-3">
+        <label class="name-label" for="pname">Como você se identifica?</label>
+        <div class="name-input-wrap">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" id="pname" placeholder="Nome artístico ou nome completo" value="${S.name}" autocomplete="off"/>
+        </div>
+      </div>
+      <button class="btn-start fade-up-4" onclick="startInterview()">
+        Começar entrevista
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p class="privacy-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Suas respostas são criptografadas e enviadas com segurança
+      </p>
+    </div>
+  </div>`;
+}
+
+function renderQuestion(app){
+  const item=FLAT[S.step];
+  const pct=Math.round((S.step/TOTAL)*100);
+  const rec=S.recordings[S.step];
+  const us=S.uploadStatus[S.step];
+  const tf=Math.min(100,Math.round((S.elapsed/MAX_S)*100));
+  const tCls=S.elapsed>=100?'danger':S.elapsed>=80?'warn':'';
+  const m=Math.floor(S.elapsed/60),sc=S.elapsed%60;
+  const tStr=m+':'+String(sc).padStart(2,'0');
+  const tLeft=MAX_S-S.elapsed;
+  const tlStr=Math.floor(tLeft/60)+':'+String(tLeft%60).padStart(2,'0');
+
+  let uploadHTML='';
+  if(rec){
+    if(us==='ok') uploadHTML=`<div class="rec-bottom">
+      <div class="rec-bottom-icon ok"><svg viewBox="0 0 24 24" fill="none" stroke="#1A7A4A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="rec-bottom-text">Áudio enviado com sucesso<span>Recebido pelo pesquisador</span></div>
+      <span class="rec-bottom-badge ok">Enviado</span>
+    </div>`;
+    else if(us==='uploading') uploadHTML=`<div class="rec-bottom">
+      <div class="rec-bottom-icon loading"><div class="spinner"></div></div>
+      <div class="rec-bottom-text">Enviando áudio…<span>Aguarde</span></div>
+      <span class="rec-bottom-badge loading">Enviando</span>
+    </div>`;
+    else if(us==='error') uploadHTML=`<div class="rec-bottom">
+      <div class="rec-bottom-icon error"><svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+      <div class="rec-bottom-text">Erro no envio<span><a href="#" onclick="retryUpload(${S.step});return false;" style="color:var(--accent)">Tentar novamente</a></span></div>
+      <span class="rec-bottom-badge err">Erro</span>
+    </div>`;
+  }
+
+  let sbHTML='';
+  BLOCKS.forEach((b,bi)=>{
+    const qStart=BLOCKS.slice(0,bi).reduce((s,x)=>s+x.questions.length,0);
+    const done=b.questions.every((_,qi)=>S.recordings[qStart+qi]);
+    const active=FLAT[S.step].blockIdx===bi;
+    sbHTML+=`<div class="qs-block${active?' active':''}${done?' done':''}">
+      <div class="qs-bnum">${done?'✓':bi+1}</div>
+      <span class="qs-bname">${b.title}</span>
+    </div>`;
+  });
+
+  app.innerHTML=`
+  <div class="q-screen">
+    <aside class="q-sidebar">
+      <div class="qs-top">
+        <div class="qs-logo">
+          <div class="qs-logo-mark"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <span class="qs-logo-text">TCC · FGV EAESP</span>
+        </div>
+        <div class="qs-title">Gestão de Marca nas Plataformas Digitais</div>
+      </div>
+      <div class="qs-blocks">
+        <div class="qs-section">Blocos temáticos</div>
+        ${sbHTML}
+      </div>
+      <div class="qs-progress-wrap">
+        <div class="qs-progress-label"><span>Progresso</span><span>${pct}%</span></div>
+        <div class="qs-progress-track"><div class="qs-progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="qs-footer">
+        Pesquisador: Victor Nicolau<br>
+        Orientadora: Prof. Ramona de Luca<br><br>
+        Respostas usadas apenas para fins acadêmicos.
+      </div>
+    </aside>
+    <main class="q-main">
+      <div class="qm-meta fade-up">
+        <span class="qm-block-tag">${item.block}</span>
+        <span class="qm-sep"></span>
+        <span class="qm-count">Pergunta ${S.step+1} de ${TOTAL}</span>
+      </div>
+      <h2 class="qm-question fade-up-2">${item.q}</h2>
+      <div class="rec-card${S.isRecording?' is-recording':rec?' is-done':''} fade-up-3">
+        <div class="rec-top">
+          <div class="rec-btn-wrap">
+            <button class="rec-btn${S.isRecording?' recording':''}" id="rbtn" onclick="toggleRec()">
+              <svg class="icon-mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+              <svg class="icon-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+            </button>
+            <div class="rec-pulse"></div>
+          </div>
+          <div class="rec-info">
+            <div class="rec-title${S.isRecording?' recording':''}">${S.isRecording?'Gravando…':rec?'Gravação salva':'Pronto para gravar'}</div>
+            <div class="rec-subtitle">${S.isRecording?'Clique para parar':rec?'Clique para regravar':'Clique no botão para começar'}</div>
+            ${S.isRecording?`<div class="rec-timer-display${tCls?' '+tCls:''}">${tStr} — restam ${tlStr}</div>`:''}
+          </div>
+          <span class="rec-status-badge${S.isRecording?' rec':rec?' ok':' idle'}">
+            <span class="bdot"></span>
+            ${S.isRecording?'Gravando':rec?'OK':'Aguardando'}
+          </span>
+        </div>
+        ${S.isRecording?`<div class="rec-timebar"><div class="rec-timebar-fill${tCls?' '+tCls:''}" style="width:${tf}%"></div></div>`:''}
+        ${rec&&!S.isRecording?`<div class="rec-audio-wrap"><audio id="aprev" controls></audio></div>`:''}
+        ${rec&&!S.isRecording?uploadHTML:''}
+      </div>
+      <div class="qm-nav fade-up-4">
+        ${S.step>0?`<button class="btn-back" onclick="goBack()"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Voltar</button>`:''}
+        <button class="btn-next" id="bnext" onclick="goNext()" ${!rec||S.isRecording?'disabled':''}>
+          ${S.step===TOTAL-1?'Finalizar entrevista':'Próxima pergunta'}
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </main>
+  </div>`;
+
+  if(rec&&!S.isRecording){
+    const a=document.getElementById('aprev');
+    if(a)a.src=URL.createObjectURL(rec);
+  }
+}
+
+function renderDone(app){
+  const answered=S.recordings.filter(Boolean).length;
+  const anyErr=S.uploadStatus.some(s=>s==='error');
+  app.innerHTML=`
+  <div class="done-screen">
+    <div class="done-card fade-up">
+      <div class="done-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h2 class="done-h">Entrevista concluída!</h2>
+      <p class="done-sub">Muito obrigado, <strong>${S.name}</strong>. Suas respostas foram enviadas diretamente para o pesquisador e serão usadas com total confidencialidade na pesquisa.</p>
+      <div class="done-divider"></div>
+      <div class="done-list-title">Resumo — ${answered} de ${TOTAL} perguntas respondidas</div>
+      <div class="done-list">
+        ${FLAT.map((item,i)=>{
+          const rec=S.recordings[i];const us=S.uploadStatus[i];
+          return`<div class="done-row">
+            <div class="done-rnum${us==='ok'?' ok':''}">${us==='ok'?'✓':i+1}</div>
+            <div class="done-rq">${item.q.substring(0,60)}${item.q.length>60?'…':''}<small>${item.block}</small></div>
+            ${rec?`<span class="done-rbadge${us==='ok'?' ok':us==='error'?' err':' loading'}">${us==='ok'?'Enviado':us==='error'?'Erro':'Enviando…'}</span>`:`<span class="done-rbadge none">—</span>`}
+            ${us==='error'?`<button class="btn-retry" onclick="retryUpload(${i})">Reenviar</button>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function startInterview(){
+  const v=document.getElementById('pname').value.trim();
+  if(!v){alert('Por favor, informe seu nome antes de começar.');return;}
+  S.name=v;S.screen='question';S.step=0;render();
+}
+
+function toggleRec(){S.isRecording?stopRec():startRec();}
+
+function startRec(){
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    S.chunks=[];
+    const mime=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'audio/webm';
+    S.mediaRec=new MediaRecorder(stream,{mimeType:mime});
+    S.mediaRec.ondataavailable=e=>S.chunks.push(e.data);
+    S.mediaRec.onstop=()=>{
+      const blob=new Blob(S.chunks,{type:'audio/webm'});
+      S.recordings[S.step]=blob;
+      stream.getTracks().forEach(t=>t.stop());
+      clearInterval(S.timerInt);S.elapsed=0;S.isRecording=false;
+      render();uploadToSupabase(S.step,blob);
+    };
+    S.mediaRec.start(500);S.elapsed=0;S.isRecording=true;
+    S.timerInt=setInterval(()=>{S.elapsed++;if(S.elapsed>=MAX_S){stopRec();return;}updateTimer();},1000);
+    render();
+  }).catch(()=>alert('Não foi possível acessar o microfone. Verifique as permissões do navegador.'));
+}
+
+function stopRec(){
+  if(S.mediaRec&&S.mediaRec.state==='recording')S.mediaRec.stop();
+  clearInterval(S.timerInt);
+}
+
+function updateTimer(){
+  const m=Math.floor(S.elapsed/60),sc=S.elapsed%60;
+  const tStr=m+':'+String(sc).padStart(2,'0');
+  const tLeft=MAX_S-S.elapsed;
+  const tlStr=Math.floor(tLeft/60)+':'+String(tLeft%60).padStart(2,'0');
+  const pct=Math.min(100,Math.round((S.elapsed/MAX_S)*100));
+  const cls=S.elapsed>=100?'danger':S.elapsed>=80?'warn':'';
+  const rt=document.querySelector('.rec-timer-display');
+  const tb=document.querySelector('.rec-timebar-fill');
+  const pulse=document.querySelector('.rec-pulse');
+  if(rt){rt.textContent=tStr+' — restam '+tlStr;rt.className='rec-timer-display'+(cls?' '+cls:'');}
+  if(tb){tb.style.width=pct+'%';tb.className='rec-timebar-fill'+(cls?' '+cls:'');}
+}
+
+function goNext(){if(S.isRecording)stopRec();S.step++;if(S.step>=TOTAL)S.screen='done';render();}
+function goBack(){if(S.isRecording)stopRec();S.step--;render();}
+function retryUpload(idx){S.uploadStatus[idx]='pending';uploadToSupabase(idx,S.recordings[idx]);}
+
+render();
+</script>
+</body>
+</html>
